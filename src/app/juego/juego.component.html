@@ -14,18 +14,18 @@
                         <label for="nombre" class="form-label">Nombre</label>
                         <input [(ngModel)]="this.nombreUsuario" (blur)="onBlurNombre()" [disabled]="desactivarFormulario" type="text" class="form-control"  name="nombre" id="nombre">
                         <!-- Campo de texto oculto para feedback -->
-                        <span [ngStyle]="{'color': errorNombreVisible ? 'red' : 'green'}">
+                        <span [ngStyle]="{'color': nombreUsuario === '' ? 'red' : 'green'}">
                             {{ errorNombreVisible ? 'El nombre no puede estar vacio.' : '' }}
-                            <i *ngIf="!errorNombreVisible && this.nombreUsuario != ''" class="fa fa-check-circle" style="color: green;"></i>
+                            <i *ngIf="this.nombreUsuario !== ''" class="fa fa-check-circle" style="color: green;"></i>
                         </span>
                     </div>
                     <div class="mb-3">
                         <label for="apellido" class="form-label">Apellido</label>
                         <input [(ngModel)]="this.apellidoUsuario" (blur)="onBlurApellido()" [disabled]="desactivarFormulario" type="text" class="form-control"  name="apellido" id="apellido">
                         <!-- Campo de texto oculto para feedback -->
-                        <span [ngStyle]="{'color': errorApellidoVisible ? 'red' : 'green'}">
+                        <span [ngStyle]="{'color': apellidoUsuario === '' ? 'red' : 'green'}">
                             {{ errorApellidoVisible ? 'El apellido no puede estar vacio.' : '' }}
-                            <i *ngIf="!errorApellidoVisible && this.apellidoUsuario != ''" class="fa fa-check-circle" style="color: green;"></i>
+                            <i *ngIf="this.apellidoUsuario !== ''" class="fa fa-check-circle" style="color: green;"></i>
                         </span>
                     </div>
                     <div class="mb-3">
@@ -49,7 +49,7 @@
         
             <!--columna derecha del juego-->
             <div class="col-sm-8" *ngIf="empezarJuego">       
-                    <h3 class="d-flex justify-content-center" *ngIf="!desactivarJuego">¡Ongi Etorri {{this.configuracion?.nombreUsuario}} {{this.configuracion?.apellidoUsuario}} !</h3>
+                    <h3 class="d-flex justify-content-center" *ngIf="!desactivarJuego">Ongi Etorri {{this.configuracion?.nombreUsuario}} {{this.configuracion?.apellidoUsuario}} !</h3>
                     <form>
                         <div class="mb-3">
                             <label for="numeroIntroducido" class="form-lable d-flex justify-content-center">Introduce un numero:</label>
@@ -58,16 +58,16 @@
                         <div class="mb-3 d-flex justify-content-center">
                             <button (click)="comprobarNumero()" [disabled]="desactivarJuego" type="submit" class="btn btn-primary">Enviar</button>
                         </div>
-                        <hr>
-                        <div class="mb-3 border">
-                            <p class="text-center" *ngIf="this.mensaje != null" >{{this.mensaje}}</p>
+                        
+                        <div class="mb-3 border" *ngIf="this.mensaje !== ''">
+                            <p class="text-center" [ngStyle]="{'color': getColor()}">{{this.mensaje}}</p>
                         </div>
-                        <hr>
+                        
                         <div class="mb-3 d-flex justify-content-center">
-                            <p class="alert" *ngIf="this.configuracion?.intentos !== null || !desactivarJuego">Intentos Restantes: {{this.configuracion?.intentos}} </p>
+                            <p class="alert" *ngIf="this.intentos !== 0 || !desactivarJuego">Intentos Restantes: {{this.configuracion?.intentos}} </p>
                         </div>
-                        <div class="mb-3 d-flex justify-content-center">
-                            <button type="submit" [disabled]="desactivarJuego" class="btn btn-primary">Atras</button>
+                        <div class="mb-3 d-flex justify-content-center" *ngIf = "jugarDeNuevo">
+                            <button (click)="comenzarDeNuevo()" type="submit"  class="btn btn-primary">Jugar de nuevo</button>
                         </div>    
                     </form>        
             </div>
