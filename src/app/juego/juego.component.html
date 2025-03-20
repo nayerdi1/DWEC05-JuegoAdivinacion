@@ -1,0 +1,78 @@
+<main class="container">
+    <hr>
+    <hr>
+    <h1 class=" text-center display-4">Juego de Adivinación</h1>
+    <hr>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <!--Columna izquierda de configuracion-->
+            <div class="col-sm-4 border blanco rounded">
+                <h2>Configuración</h2>
+                <form>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input [(ngModel)]="this.nombreUsuario" (blur)="onBlurNombre()" [disabled]="desactivarFormulario" type="text" class="form-control"  name="nombre" id="nombre">
+                        <!-- Campo de texto oculto para feedback -->
+                        <span [ngStyle]="{'color': errorNombreVisible ? 'red' : 'green'}">
+                            {{ errorNombreVisible ? 'El nombre no puede estar vacio.' : '' }}
+                            <i *ngIf="!errorNombreVisible && this.nombreUsuario != ''" class="fa fa-check-circle" style="color: green;"></i>
+                        </span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label">Apellido</label>
+                        <input [(ngModel)]="this.apellidoUsuario" (blur)="onBlurApellido()" [disabled]="desactivarFormulario" type="text" class="form-control"  name="apellido" id="apellido">
+                        <!-- Campo de texto oculto para feedback -->
+                        <span [ngStyle]="{'color': errorApellidoVisible ? 'red' : 'green'}">
+                            {{ errorApellidoVisible ? 'El apellido no puede estar vacio.' : '' }}
+                            <i *ngIf="!errorApellidoVisible && this.apellidoUsuario != ''" class="fa fa-check-circle" style="color: green;"></i>
+                        </span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="rango" class="form-label">Rango de numeros a generar:</label>
+                        <input [(ngModel)]="this.rango" (blur)="onBlurRango()" [disabled]="desactivarFormulario" type="number" class="form-control"  name="rango" id="rango" min="1">
+                        <!-- Campo de texto oculto para feedback -->
+                        <span [ngStyle]="{'color': errorRangoVisible ? 'red' : 'green'}">
+                            {{ errorRangoVisible ? 'El número introducido es menor que el rango mínimo.' : '' }}
+                            <i *ngIf="!errorRangoVisible && this.rango >= 4" class="fa fa-check-circle" style="color: green;"></i>
+                        </span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="intentos" class="form-label">Número de intentos:</label>
+                        <input [(ngModel)]="this.intentos" [disabled]="desactivarFormulario" type="number" class="form-control"  name="intentos" id="intentos" min="1">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button (click)="enviarDatos()" [disabled]="!comprobarDatos() || desactivarFormulario" type="submit" class="btn btn-primary bg-dark" >Recoger datos</button>
+                    </div>
+                </form>
+            </div>
+        
+            <!--columna derecha del juego-->
+            <div class="col-sm-8" *ngIf="empezarJuego">       
+                    <h3 class="d-flex justify-content-center" *ngIf="!desactivarJuego">¡Ongi Etorri {{this.configuracion?.nombreUsuario}} {{this.configuracion?.apellidoUsuario}} !</h3>
+                    <form>
+                        <div class="mb-3">
+                            <label for="numeroIntroducido" class="form-lable d-flex justify-content-center">Introduce un numero:</label>
+                            <input [(ngModel)]="this.numIntroducido" [disabled]="desactivarJuego" type="number" class="form-control"  name="numeroIntroducido" id="numeroIntroducido">
+                        </div>
+                        <div class="mb-3 d-flex justify-content-center">
+                            <button (click)="comprobarNumero()" [disabled]="desactivarJuego" type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
+                        <hr>
+                        <div class="mb-3 border">
+                            <p class="text-center" *ngIf="this.mensaje != null" >{{this.mensaje}}</p>
+                        </div>
+                        <hr>
+                        <div class="mb-3 d-flex justify-content-center">
+                            <p class="alert" *ngIf="this.configuracion?.intentos !== null || !desactivarJuego">Intentos Restantes: {{this.configuracion?.intentos}} </p>
+                        </div>
+                        <div class="mb-3 d-flex justify-content-center">
+                            <button type="submit" [disabled]="desactivarJuego" class="btn btn-primary">Atras</button>
+                        </div>    
+                    </form>        
+            </div>
+        </div>
+    </div>
+
+
+</main>
