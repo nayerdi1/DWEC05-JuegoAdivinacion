@@ -7,6 +7,7 @@ import { Configuracion } from '../modelos/Configuracion';
   templateUrl: './juego.component.html',
   styleUrl: './juego.component.css'
 })
+
 export class JuegoComponent {
   
   public nombreUsuario : string = "";
@@ -32,7 +33,7 @@ export class JuegoComponent {
   public jugarDeNuevo : boolean = false;
   
   // Comprueba si todos los campos cumplen con las condiciones puestas
-  // cuando devuelve true se activa el boton "Recoger datos"
+  // Cuando devuelve true se activa el boton "Recoger datos"
   comprobarDatos(): boolean {
     return this.nombreUsuario !== "" && this.apellidoUsuario !== "" && this.rango >= 4 && this.intentos > 0;
   }
@@ -68,8 +69,7 @@ export class JuegoComponent {
       this.errorApellidoVisible = true;
     } else{
       this.errorApellidoVisible = false;
-    }
-    
+    }  
   }
 
   // se ejecuta cuando el usuario pierde el foco en el campo Rango
@@ -91,7 +91,8 @@ export class JuegoComponent {
     }      
   }
 
-
+  // Comprueba el numero introducido por el usuario
+  // Dependiendo de cuanto se acerque al numeroAleatorio, guarda diferentes mensajes
   comprobarNumero() : void{
     if(this.numIntroducido != null && this.numeroAleatorio != null){
       
@@ -114,11 +115,11 @@ export class JuegoComponent {
         return;
       }
       this.getColor;
-      this.actualizarIntentos();
-      
+      this.actualizarIntentos(); 
     } 
   }
 
+  // Dependiendo del mensaje le asigna un color
   getColor(): string {
     switch (this.mensaje) {
       case "Caliente":
@@ -134,6 +135,8 @@ export class JuegoComponent {
     }
   }
 
+  // Actualiza los intentos restantes
+  // Si llega a 0 termina el juego
   actualizarIntentos() : void{
     if (this.intentos > 0){
       this.intentos -= 1;
@@ -145,6 +148,7 @@ export class JuegoComponent {
       this.terminarJuego();
     }      
   }
+
   //Activa el juego y desactiva el formulario
   comenzarJuego() : void{
     this.desactivarFormulario = true;
@@ -158,6 +162,8 @@ export class JuegoComponent {
     this.desactivarJuego = true;
   }
 
+  // Resetea los valores de las variables
+  // Activa el formulario y desactiva lo demas
   comenzarDeNuevo() : void{
     this.desactivarFormulario = false;
     this.empezarJuego = false;
@@ -167,9 +173,7 @@ export class JuegoComponent {
     this.apellidoUsuario = "";
     this.rango = 0;
     this.intentos = 0;
+    this.mensaje = "";
     this.numIntroducido = 0;
-
   }
-
-
 }
